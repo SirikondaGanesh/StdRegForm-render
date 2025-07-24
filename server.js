@@ -1,11 +1,19 @@
-const { Pool } = require('pg');
+const express = require('express');
+const cors = require('cors');
+const { pool } = require('./models/db'); // Updated path
+const studentRoutes = require('./routes/studentRoutes');
 require('dotenv').config();
 
-const pool = new Pool();
+const app = express();
+const PORT = process.env.PORT || 5000;
 
+app.use(cors());
+app.use(express.json());
+
+// Create Table
 const createTable = async () => {
   const query = `
-    CREATE TABLE IF NOT EXISTS studentData  (
+    CREATE TABLE IF NOT EXISTS studentData (
       id SERIAL PRIMARY KEY,
       registration_id VARCHAR(50),
       student_name VARCHAR(100),
@@ -18,10 +26,21 @@ const createTable = async () => {
   `;
   try {
     await pool.query(query);
-    console.log("✅ 'students' table is ready.");
+    console.log("✅ 'studentData' table is ready.");
   } catch (err) {
     console.error("❌ Error creating table:", err);
   }
 };
 
-module.exports = { pool, createTable };
+createTable();
+
+app.get("/", (req, res) => {
+  res.send("✅ Backend is running.");
+});
+
+// Mount Routes
+app.use("/api/students", studentRoutes);
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server is running on http://localhost:${PORT}`);
+});
