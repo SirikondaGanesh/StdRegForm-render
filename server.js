@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { pool } = require('./models/db'); // Updated path
+const { pool } = require('./models/db');
 const studentRoutes = require('./routes/studentRoutes');
 require('dotenv').config();
 
@@ -38,7 +38,7 @@ app.get("/", (req, res) => {
   res.send("✅ Backend is running.");
 });
 
-// Mount Routes
+// Routes
 app.use("/api/students", studentRoutes);
 
 app.listen(PORT, () => {
