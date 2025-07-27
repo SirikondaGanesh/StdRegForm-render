@@ -13,7 +13,7 @@ app.use(express.json());
 // Create Table
 const createTable = async () => {
   const query = `
-    CREATE TABLE IF NOT EXISTS studentData (
+    CREATE TABLE IF NOT EXISTS studentdata (
       id SERIAL PRIMARY KEY,
       registration_id VARCHAR(50),
       student_name VARCHAR(100),
@@ -26,7 +26,7 @@ const createTable = async () => {
   `;
   try {
     await pool.query(query);
-    console.log("✅ 'studentData' table is ready.");
+    console.log("✅ 'studentdata' table is ready.");
   } catch (err) {
     console.error("❌ Error creating table:", err);
   }
